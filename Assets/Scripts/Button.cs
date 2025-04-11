@@ -1,15 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+Ôªøusing UnityEngine;
 using TMPro;
+using System.Collections;
 
-public class Button : MonoBehaviour
+public class JankenGame : MonoBehaviour
 {
-    public TMP_Text resultText,cpuHandText;
-    private string[] hands = { "ÉOÅ[", "É`ÉáÉL", "ÉpÅ[" };
+    public TMP_Text resultText;
+    public TMP_Text cpuHandText;
+    public TMP_Text playerHandText;
+
+    private string[] hands = { "„Ç∞„Éº", "„ÉÅ„Éß„Ç≠", "„Éë„Éº" };
 
     public void PlayerChoice(int playerHand)
     {
+        playerHandText.text = "„ÅÇ„Å™„Åü: " + hands[playerHand];
+        StartCoroutine(ShowCpuChoice(playerHand));
+    }
+
+    private IEnumerator ShowCpuChoice(int playerHand)
+    {
+        for (int i = 0; i < 10; i++) // CPU„ÅÆÊâã„Çí„É©„É≥„ÉÄ„É†„Å´Ë°®Á§∫
+        {
+            cpuHandText.text = "CPU: " + hands[Random.Range(0, 3)];
+            yield return new WaitForSeconds(0.1f);
+        }
+
         int cpuHand = Random.Range(0, 3);
         cpuHandText.text = "CPU: " + hands[cpuHand];
 
@@ -20,10 +34,10 @@ public class Button : MonoBehaviour
     private string DetermineWinner(int playerHand, int cpuHand)
     {
         if (playerHand == cpuHand)
-            return "à¯Ç´ï™ÇØ";
+            return "Âºï„ÅçÂàÜ„Åë!";
         else if ((playerHand == 0 && cpuHand == 1) || (playerHand == 1 && cpuHand == 2) || (playerHand == 2 && cpuHand == 0))
-            return "Ç†Ç»ÇΩÇÃèüÇø";
+            return "„ÅÇ„Å™„Åü„ÅÆÂãù„Å°!";
         else
-            return "Ç†Ç»ÇΩÇÃïâÇØ...";
+            return "„ÅÇ„Å™„Åü„ÅÆË≤†„Åë...";
     }
 }
